@@ -84,8 +84,10 @@ package object Matrices {
     val l = m1.length
     if(l==1) Vector(Vector( m1(0)(0)*m2(0)(0) ))
     else {
-      val multsLeft = for (i <- (0 to 1).toVector; j <- (0 to 1).toVector) yield multMatrizRec(subMatriz(m1,l*i/2,0,l/2), subMatriz(m2,0,l*j/2,l/2))
-      val multsRight = for (i <- (0 to 1).toVector; j <- (0 to 1).toVector) yield multMatrizRec(subMatriz(m1,l*i/2,l/2,l/2), subMatriz(m2,l/2,l*j/2,l/2))
+      val multsLeft = for (i <- (0 to 1).toVector; j <- (0 to 1).toVector) yield
+        multMatrizRec(subMatriz(m1,l*i/2,0,l/2), subMatriz(m2,0,l*j/2,l/2))
+      val multsRight = for (i <- (0 to 1).toVector; j <- (0 to 1).toVector) yield
+        multMatrizRec(subMatriz(m1,l*i/2,l/2,l/2), subMatriz(m2,l/2,l*j/2,l/2))
       val subMTotales = for (i <- (0 to 3).toVector) yield sumMatriz(multsLeft(i), multsRight(i))
 
       unirMatriz(subMTotales(0), subMTotales(1)) ++ unirMatriz(subMTotales(2), subMTotales(3))

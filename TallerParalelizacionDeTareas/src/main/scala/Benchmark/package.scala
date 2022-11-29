@@ -24,7 +24,7 @@ package object Benchmark {
   def probarAlgoritmo(a:AlgoritmoMult)(m1:Matriz, m2:Matriz):Double = {
     val timeA1 = config(
       KeyValue(Key.exec.minWarmupRuns -> 20),
-      KeyValue(Key.exec.maxWarmupRuns -> 60),
+      KeyValue(Key.exec.maxWarmupRuns -> 40),
       KeyValue(Key.verbose -> false)
     ) withWarmer (new Warmer.Default) measure (a(m1, m2))
 

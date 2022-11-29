@@ -81,62 +81,46 @@ multStrassenPar(m4_2,m4_1)
 multStrassenPar(m8_1,m8_2)
 */
 ///////EVALUACION COMPARATIVA///////
-
-def evaluacion(f:(Matriz,Matriz) => Matriz) = {
-  def auxEval(f:(Matriz,Matriz) => Matriz, n:Int) = {
-    def m: Matriz = matrizAlAzar(math.pow(2, n).toInt, 2)
-    for (
-      i <- (1 to 5).toVector
-    ) yield probarAlgoritmo(f)(m, m)
-  }
-
-  for (
-    i <- (1 to 5)
-  ) yield (math.pow(2, i).toInt, auxEval(f,i))
-}
-
-def evaluacionGeneral = {
-  //promedio de velocidad de ejecucion
-  def promVel(vels:Vector[Double]):Double = {
-    vels.sum / vels.length
-  }
-
-  def
-
-  for (
-    i <- (1 to 5);
-    m1 = matrizAlAzar(math.pow(2, i).toInt, 2);
-    m2 = matrizAlAzar(math.pow(2, i).toInt, 2)
-  ) yield (
-
-  )
-
-}
 def evaluacionComparativa(f1:(Matriz,Matriz) => Matriz, f2:(Matriz,Matriz) => Matriz) = {
   for (
     i <- (1 to 10 );
     m1 = matrizAlAzar(math.pow(2, i).toInt, 2);
     m2 = matrizAlAzar(math.pow(2, i).toInt, 2)
   ) yield (compararAlgoritmos(f1, f2)(m1, m2), math.pow(2, i).toInt)
+
+
+}
+
+val matrices = for (
+  i <- (1 to 10).toVector
+) yield Vector(matrizAlAzar(math.pow(2, i).toInt, 2), matrizAlAzar(math.pow(2, i).toInt, 2))
+
+def probarFuncion(f:(Matriz, Matriz)=>Matriz) = {
+
+  for (
+    vvm <- matrices
+  ) yield vvm match {
+    case Vector(m1, m2) => probarAlgoritmo(f)(m1, m2)
+  }
 }
 
 //multMatriz
-//evaluacion(multMatriz)
+probarFuncion(multMatriz)
 
-//multMatrizPar
-//evaluacion(multMatrizPar)
+//mulMatrizRec
+probarFuncion(multMatrizPar)
 
-//multMatrizRec
-//evaluacion(multMatrizRec)
+//mulMatrizRec
+probarFuncion(multMatrizRec)
 
-//multMatrizRecPar
-//evaluacion(multMatrizRecPar)
+//mulMatrizRecPar
+probarFuncion(multMatrizRecPar)
 
 //multStrassen
-//evaluacion(multStrassen)
+probarFuncion(multStrassen)
 
 //multStrassenPar
-//evaluacion(multStrassenPar)
+probarFuncion(multStrassenPar)
 
 //multMatriz vs multMatrizPar
 //evaluacionComparativa(multMatriz, multMatrizPar)
