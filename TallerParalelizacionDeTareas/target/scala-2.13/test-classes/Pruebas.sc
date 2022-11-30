@@ -1,6 +1,6 @@
 import Matrices._
 import Benchmark._
-/*
+
 //Matrices 1x1
 val m1_1 = matrizAlAzar(1,2)
 val m1_2 = matrizAlAzar(1,2)
@@ -79,46 +79,17 @@ multStrassenPar(m2_1,m2_2)
 multStrassenPar(m4_1,m4_2)
 multStrassenPar(m4_2,m4_1)
 multStrassenPar(m8_1,m8_2)
-*/
+
+
 ///////EVALUACION COMPARATIVA///////
-/*
-def evaluacion(f:(Matriz,Matriz) => Matriz) = {
-  def auxEval(f:(Matriz,Matriz) => Matriz, n:Int) = {
-    def m: Matriz = matrizAlAzar(math.pow(2, n).toInt, 2)
-    for (
-      i <- (1 to 5).toVector
-    ) yield probarAlgoritmo(f)(m, m)
-  }
 
-  for (
-    i <- (1 to 5)
-  ) yield (math.pow(2, i).toInt, auxEval(f,i))
-}*/
-/*
-def evaluacionComparativa(f1:(Matriz,Matriz) => Matriz, f2:(Matriz,Matriz) => Matriz) = {
-  for (
-    i <- (1 to 10 );
-    m1 = matrizAlAzar(math.pow(2, i).toInt, 2);
-    m2 = matrizAlAzar(math.pow(2, i).toInt, 2)
-  ) yield (compararAlgoritmos(f1, f2)(m1, m2), math.pow(2, i).toInt)
-
-
-}*/
-/*
-//generar 5 matrices de 2**n
-def genMatriz(n: Int): Vector[Matriz] = {
-  for (i <- (1 to 5).toVector)
-    yield matrizAlAzar(math.pow(2, n).toInt, 2)
-}
-*//*
-def promVel(vels:Vector[Double]):Double = {
-  vels.sum / vels.length
-}
-*/
+//pares de matrices nxn, donde n es todas las potencia de 2 de 1 hasta 10
 val matrices = for (
   i <- (1 to 10).toVector
 ) yield Vector(matrizAlAzar(math.pow(2, i).toInt, 2), matrizAlAzar(math.pow(2, i).toInt, 2))
 
+//Funcion que retorna los tiempos de ejecucion de un algoritmo
+//con cada par de matrices de val matrices
 def probarFuncion(f:(Matriz, Matriz)=>Matriz) = {
 
   for (
@@ -127,7 +98,9 @@ def probarFuncion(f:(Matriz, Matriz)=>Matriz) = {
     case Vector(m1, m2) => probarAlgoritmo(f)(m1, m2)
   }
 }
-
+//ADVERTENCIA: Ejecutar todos los llamados a continuacion
+//             se tarda mucho tiempo, aproximadamente 10 horas
+/*
 //multMatriz
 probarFuncion(multMatriz)
 
@@ -145,32 +118,4 @@ probarFuncion(multStrassen)
 
 //multStrassenPar
 probarFuncion(multStrassenPar)
-
-
-
-//multMatriz
-//evaluacion(multMatriz)
-
-//multMatrizPar
-//evaluacion(multMatrizPar)
-
-//multMatrizRec
-//evaluacion(multMatrizRec)
-
-//multMatrizRecPar
-//evaluacion(multMatrizRecPar)
-
-//multStrassen
-//evaluacion(multStrassen)
-
-//multStrassenPar
-//evaluacion(multStrassenPar)
-
-//multMatriz vs multMatrizPar
-//evaluacionComparativa(multMatriz, multMatrizPar)
-
-//multMatrizRec vs multMatrizRecPar
-//evaluacionComparativa(multMatrizRec, multMatrizRecPar)
-
-//multStrassen vs multStrassenPar
-//evaluacionComparativa(multStrassen, multStrassenPar)
+*/
