@@ -82,8 +82,11 @@ multStrassenPar(m8_1,m8_2)
 
 
 ///////EVALUACION COMPARATIVA///////
+//NOTA: PARA QUE LO SIGUIENTE FUNCIONE, SE DEBE UTILIZAR EL
+//      PAQUETE Benchmark QUE SE ENCUENTRA EN EL ENVIO
 
 //pares de matrices nxn, donde n es todas las potencia de 2 de 1 hasta 10
+/*
 val matrices = for (
   i <- (1 to 10).toVector
 ) yield Vector(matrizAlAzar(math.pow(2, i).toInt, 2), matrizAlAzar(math.pow(2, i).toInt, 2))
@@ -98,6 +101,7 @@ def probarFuncion(f:(Matriz, Matriz)=>Matriz) = {
     case Vector(m1, m2) => probarAlgoritmo(f)(m1, m2)
   }
 }
+*/
 //ADVERTENCIA: Ejecutar todos los llamados a continuacion
 //             se tarda mucho tiempo, aproximadamente 10 horas
 /*
