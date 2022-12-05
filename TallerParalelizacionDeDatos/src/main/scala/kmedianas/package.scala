@@ -4,6 +4,7 @@ import scala.collection.{Map, Seq, mutable}
 import scala.collection.parallel.CollectionConverters._
 import scala.collection.parallel.{ParMap, ParSeq}
 import scala.util.Random
+import scala.math._
 
 package object kmedianas {
   //## Definiciones ##//
@@ -16,7 +17,7 @@ package object kmedianas {
 
     private def round(v:Double):Double = (v*100).toInt / 100.0
 
-    override def toString = s"(_{round(x)},__{round(y)},__{round(z)})"
+    override def toString = s"(${round(x)},${round(y)},${round(z)})"
   }
 
   //hallarPuntoMasCercano
@@ -81,15 +82,115 @@ package object kmedianas {
     (0 until k).map(_ => puntos(rand.nextInt(puntos.length))).to(mutable.ArrayBuffer).par
   }
 
+  //calcularPromedio
+
+  //secuencial
+  def calculePromedioSeq(medianaVieja:Punto, puntos:Seq[Punto]):Punto = {
+    if (puntos.isEmpty) medianaVieja
+    else {
+      var x = 0.0
+      var y = 0.0
+      var z = 0.0
+      puntos.foreach { p =>
+        x += p.x
+        y += p.y
+        z += p.z
+      }
+      new Punto(x/puntos.length, y/puntos.length, z/puntos.length)
+    }
+  }
+
+  //paralelo
+  def calculePromedioPar(medianaVieja: Punto, puntos: ParSeq[Punto]): Punto = {
+    if (puntos.isEmpty) medianaVieja
+    else {
+      var x = 0.0
+      var y = 0.0
+      var z = 0.0
+      puntos.foreach { p =>
+        x += p.x
+        y += p.y
+        z += p.z
+      }
+      new Punto(x / puntos.length, y / puntos.length, z / puntos.length)
+    }
+  }
+
   //## Ejercicios ##//
 
   /*
     1.1. Clasificando los puntos
    */
   //Version secuencial
-  /*def clasificarSeq(puntos: Seq[Punto], medianas: Seq[Punto]): Map[Punto, Seq[Punto]] = {
-    puntos.groupBy(p => p.)
-  }*/
+  def clasificarSeq(puntos: Seq[Punto], medianas: Seq[Punto]): Map[Punto, Seq[Punto]] = {
+    puntos.groupBy(p => hallarPuntoMasCercano(p, medianas))
+  }
+
+  //Version paralela
+  def clasificarPar(puntos: ParSeq[Punto], medianas: ParSeq[Punto]): ParMap[Punto, ParSeq[Punto]] = {
+    puntos.groupBy(p => hallarPuntoMasCercano(p, medianas))
+  }
+
+  /*
+    1.2. Actualizando las medianas
+   */
+  //Version Secuancial
+  def actualizarSeq(clasif:Map[Punto, Seq[Punto]], medianasViejas:Seq[Punto]):Seq[Punto] = {
+    for (p <- medianasViejas) yield calculePromedioSeq(p, clasif(p))
+  }
+
+  //Version Paralela
+  def actualizarPar(clasif: ParMap[Punto, ParSeq[Punto]], medianasViejas: ParSeq[Punto]): ParSeq[Punto] = {
+    for (p <- medianasViejas) yield calculePromedioPar(p, clasif(p))
+  }
+
+  /*
+    1.3. Detectando convergencia
+   */
+  //Version secuencial
+  def hayConvergenciaSeq(eta:Double, medianasViejas:Seq[Punto], medianasNuevas:Seq[Punto]):Boolean = {
+    val l = medianasViejas.length
+    !(for (i <- 0 until l) yield
+      medianasViejas(i).distanciaAlCuadrado(medianasNuevas(i)) < (eta*eta)
+      ).contains(false)
+  }
+
+  //Version paralela
+  def hayConvergenciaPar(eta: Double, medianasViejas: ParSeq[Punto], medianasNuevas: ParSeq[Punto]): Boolean = {
+    val l = medianasViejas.length
+    !(for (i <- 0 until l) yield
+      pow(medianasViejas(i).distanciaAlCuadrado(medianasNuevas(i)), 0.5) < eta
+      ).contains(false)
+  }
+
+  /*
+    1.4. Implementando el algoritmo kmeans
+   */
+  //Version secuancial
+  @tailrec
+  final def kMedianasSeq(puntos:Seq[Punto], medianas:Seq[Punto], eta:Double):Seq[Punto] = {
+    //CLasificacion
+    val clasif = clasificarSeq(puntos, medianas)
+    //Actualizacion
+    val medianasNuevas = actualizarSeq(clasif, medianas)
+
+    //Convergencia
+    if(hayConvergenciaSeq(eta, medianas, medianasNuevas)) medianasNuevas
+    else kMedianasSeq(puntos, medianasNuevas, eta)
+  }
+
+  //Version paralela
+  @tailrec
+  final def kMedianasPar(puntos: ParSeq[Punto], medianas: ParSeq[Punto], eta: Double): ParSeq[Punto] = {
+    //CLasificacion
+    val clasif = clasificarPar(puntos, medianas)
+    //Actualizacion
+    val medianasNuevas = actualizarPar(clasif, medianas)
+
+    //Convergencia
+    if (hayConvergenciaPar(eta, medianas, medianasNuevas)) medianasNuevas
+    else kMedianasPar(puntos, medianasNuevas, eta)
+  }
 
 
 
