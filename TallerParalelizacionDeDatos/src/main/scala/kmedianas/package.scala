@@ -135,13 +135,25 @@ package object kmedianas {
     1.2. Actualizando las medianas
    */
   //Version Secuancial
-  def actualizarSeq(clasif:Map[Punto, Seq[Punto]], medianasViejas:Seq[Punto]):Seq[Punto] = {
-    for (p <- medianasViejas) yield calculePromedioSeq(p, clasif(p))
+  def actualizarSeq(clasif: Map[Punto, Seq[Punto]], medianasViejas: Seq[Punto]): Seq[Punto] = {
+    def nuevaMediana(mediana: Punto): Punto = {
+      //Se verfica que la mediana no se haya quedado rezagada debido a no tener ningun punto cerca
+      if (clasif.contains(mediana)) calculePromedioSeq(mediana, clasif(mediana))
+      else mediana
+    }
+
+    medianasViejas.map(nuevaMediana)
   }
 
   //Version Paralela
   def actualizarPar(clasif: ParMap[Punto, ParSeq[Punto]], medianasViejas: ParSeq[Punto]): ParSeq[Punto] = {
-    for (p <- medianasViejas) yield calculePromedioPar(p, clasif(p))
+    def nuevaMediana(mediana: Punto): Punto = {
+      //Se verfica que la mediana no se haya quedado rezagada debido a no tener ningun punto cerca
+      if (clasif.contains(mediana)) calculePromedioPar(mediana, clasif(mediana))
+      else mediana
+    }
+
+    medianasViejas.map(nuevaMediana)
   }
 
   /*
@@ -159,7 +171,7 @@ package object kmedianas {
   def hayConvergenciaPar(eta: Double, medianasViejas: ParSeq[Punto], medianasNuevas: ParSeq[Punto]): Boolean = {
     val l = medianasViejas.length
     !(for (i <- 0 until l) yield
-      pow(medianasViejas(i).distanciaAlCuadrado(medianasNuevas(i)), 0.5) < eta
+      medianasViejas(i).distanciaAlCuadrado(medianasNuevas(i)) < (eta * eta)
       ).contains(false)
   }
 

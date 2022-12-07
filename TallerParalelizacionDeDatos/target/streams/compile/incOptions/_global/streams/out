@@ -1,2 +1,30 @@
 [debug] Created transactional ClassFileManager with tempDir = C:\Users\Juan\Documents\PFyC(Talleres)\TallerParalelizacionDeDatos\target\scala-2.13\classes.bak
+[debug] About to delete class files:
+[debug] 	package$.class
+[debug] 	package$Punto.class
+[debug] 	package.class
+[debug] 	package$Punto.class
+[debug] 	package$.class
+[debug] 	package.class
+[debug] We backup class files:
+[debug] 	package$.class
+[debug] 	package$Punto.class
+[debug] 	package.class
+[debug] 	package$Punto.class
+[debug] 	package$.class
+[debug] 	package.class
+[debug] Registering generated classes:
+[debug] 	package.class
+[debug] 	package$DefaultTaskScheduler.class
+[debug] 	package$.class
+[debug] 	package$Punto.class
+[debug] 	package.class
+[debug] 	package$DefaultTaskScheduler$$anon$1.class
+[debug] 	package$.class
+[debug] 	package.class
+[debug] 	package$Punto.class
+[debug] 	package$TaskScheduler.class
+[debug] 	package$.class
+[debug] 	package$.class
+[debug] 	package.class
 [debug] Removing the temporary directory used for backing up class files: C:\Users\Juan\Documents\PFyC(Talleres)\TallerParalelizacionDeDatos\target\scala-2.13\classes.bak

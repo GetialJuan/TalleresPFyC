@@ -1,15 +1,7 @@
-//import kmedianas._
-import kmedianas2D._
-
-/*
-var l1= List("anc", "ahg", "tyh")
-l1.groupBy(x => x.charAt(0))
-
-var list1= List("amit", "sumit", "vinit", "ajit", "kavit", "lalit", "lalit", "vinit", "vinit")
-var g = list1.groupBy(x => x)
-
-val l2 = List(1,2,3)
-l2.groupBy(n => l1.length)*/
+import kmedianas._
+import Benchmark._
+import scala.collection.parallel.CollectionConverters._
+//import kmedianas2D._
 /*
 //puntos secuanciales
 val puntosSeq = generarPuntosSeq(32, 100)
@@ -36,7 +28,21 @@ kMedianasSeq(puntosSeq, medianasSeq, 0.01)
 kMedianasPar(puntosPar, medianasPar, 0.01)
 */
 
-val puntosSeq = generarPuntosSeq(32, 100)
-val medianasSeq = inicializarMedianasSeq(2, puntosSeq)
+val k = 8
+val n = 1000
+val eta = 0.01
 
-kMedianasSeq(puntosSeq, medianasSeq, 0.01)
+val puntosSeq = generarPuntosSeq(k, n)
+val medianasSeq = inicializarMedianasSeq(k, puntosSeq)
+
+val puntosPar = puntosSeq.par
+val medianasPar = medianasSeq.par
+/*
+val timePar = probarAlgoritmoPar(puntosPar, medianasPar, eta)
+val timeSeq = probarAlgoritmoSeq(puntosSeq, medianasSeq, eta)
+//timeSeq/timePar
+*/
+
+
+probarAlgoritmoSeq(puntosSeq, medianasSeq, eta)
+probarAlgoritmoPar(puntosPar, medianasPar, eta)

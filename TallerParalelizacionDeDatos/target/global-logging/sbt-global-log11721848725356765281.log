@@ -1,0 +1,8 @@
+[debug] > Exec(scala, None, None)
+[error] Not a valid command: scala (similar: alias, last, eval)
+[error] Not a valid project ID: scala
+[error] Expected ':'
+[error] Not a valid key: scala (similar: scalaHome, scalaSource, clean)
+[error] scala
+[error]      ^
+[debug] > Exec(idea-shell, None, None)

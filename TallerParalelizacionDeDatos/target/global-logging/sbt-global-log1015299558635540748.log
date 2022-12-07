@@ -1,0 +1,6 @@
+[debug] > Exec(console, None, None)
+[debug] Evaluating tasks: Compile / console
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] compiling 4 Scala sources to C:\Users\Juan\Documents\PFyC(Talleres)\TallerParalelizacionDeDatos\target\scala-2.13\classes ...
+[info] done compiling
+[info] Starting scala interpreter...
