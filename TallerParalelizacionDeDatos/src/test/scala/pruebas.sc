@@ -1,5 +1,5 @@
 import kmedianas._
-import Benchmark._
+//import Benchmark._
 import scala.collection.parallel.CollectionConverters._
 
 //puntos secuenciales (se utilizara .par en el caso paralelo)
@@ -71,6 +71,7 @@ kMedianasPar(puntosSeq2.par, medianasSeq2.par, 0.01)
 kMedianasPar(puntosSeq3.par, medianasSeq3.par, 0.001)
 kMedianasPar(puntosSeq4.par, medianasSeq4.par, 0.001)
 kMedianasPar(puntosSeq5.par, medianasSeq5.par, 0.001)
+
 //Nota: aunque halla diferencias entre los resultados en los casos donde
 //      son muchos puntos, a la hora de graficar dichos resultados
 //      los graficos son totalmente iguales
@@ -88,16 +89,11 @@ def compararAlgoritmos(k:Int, n:Int, eta:Double)={
     probarAlgoritmoPar(puntosPar,medianasPar,eta)
   )
 }
+for (k <- Vector(2,4,8,16,32,64)) yield compararAlgoritmos(k, 1000000, 0.01)
 
-for (n <- Vector(100,1000,100000,1000000)) yield compararAlgoritmos(4, n, 0.001)
+for (k <- Vector(2,4,8,16,32,64)) yield compararAlgoritmos(k, 100000, 0.01)
 
-for (n <- Vector(100,1000,100000,1000000)) yield compararAlgoritmos(8, n, 0.001)
+for (k <- Vector(2,4,8,16,32,64)) yield compararAlgoritmos(k, 10000, 0.01)
 
-for (n <- Vector(100,1000,100000,1000000)) yield compararAlgoritmos(16, n, 0.001)
-
-for (n <- Vector(100,1000,100000,1000000)) yield compararAlgoritmos(32, n, 0.001)
+for (k <- Vector(2,4,8,16,32,64)) yield compararAlgoritmos(k, 1000, 0.01)
 */
-/*
-for (n <- (100,1000,100000,1000000); k <- (2,4,8,16,32,64)) yield
-  compararAlgoritmos(k, n, 00.1)
- */
